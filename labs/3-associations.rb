@@ -17,8 +17,43 @@ Activity.destroy_all
 # 1. insert 3 rows in the activities table with relationships to
 # a single salesperson and 2 different contacts
 
+apple=Company.find_by({"name"=> "Apple"})
+cook=Contact.find_by({"last_name"=> "Cook"})
+sales1=Salesperson.find_by({"first_name"=> "Jane"})
+
+activity1=Activity.new
+activity1["notes"]="coffee chat"
+activity1["contact_id"]= cook["id"]
+activity1["salesperson_id"]=sales1["id"]
+activity1.save
+
+activity2=Activity.new
+activity2["notes"]="lunch at Ding Tai Fung"
+activity2["contact_id"]= cook["id"]
+activity2["salesperson_id"]=sales1["id"]
+activity2.save
+
+
+bezos=Contact.find_by({"last_name"=> "Bezos"})
+
+activity3=Activity.new
+activity3["notes"]="coffee chat"
+activity3["contact_id"]= bezos["id"]
+activity3["salesperson_id"]=sales1["id"]
+activity3.save
+
+puts "#{Activity.all.count}"
+
 # 2. Display all the activities between the salesperson used above
 # and one of the contacts (sample output below):
+
+sales1_log=Activity.where("contact_id"=>cook["id"], "salesperson_id"=> sales1["id"])
+
+puts "Activities between #{sales1["first_name"]} and #{cook["first_name"]} #{cook["last_name"]}"
+for i in sales1_log
+    puts "#{i["notes"]}"
+end
+
 
 # ---------------------------------
 # Activities between Ben and Tim Cook:
